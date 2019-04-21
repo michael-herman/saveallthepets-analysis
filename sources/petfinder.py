@@ -10,7 +10,7 @@ class PetFinderApi:
         self._ACCESS_TOKEN = None
 
     def _get_access_token(self) -> dict:
-        params = config('petfinder')
+        params = config(section='petfinder')
 
         payload = {
             'grant_type': 'client_credentials',
@@ -24,5 +24,6 @@ class PetFinderApi:
         }
 
         response = requests.post(self._TOKEN_URL, data=payload, headers=headers)
+        # TODO: logic for handling failed requests
         return response.json()
 
