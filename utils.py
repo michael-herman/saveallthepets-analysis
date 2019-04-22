@@ -14,7 +14,8 @@ CONFIG_FILE = os.path.abspath(os.path.join(ROOT_PATH, 'config.ini'))
 def config(section: str, filename=CONFIG_FILE,):
     """Returns parameters for given section of the config.ini file.
 
-    Raises ValueError if section not found in config.ini
+    Raises:
+        ValueError: Section not found in config.ini file.
     """
     parser = ConfigParser()
     parser.read(filename)
