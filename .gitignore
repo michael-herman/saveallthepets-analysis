@@ -106,8 +106,9 @@ venv.bak/
 # pycharm
 .idea/
 
-# config.ini
+# secrets files
 config.ini
+credentials.json
 
 # data files
 data/
