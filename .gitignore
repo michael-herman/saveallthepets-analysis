@@ -108,3 +108,6 @@ venv.bak/
 
 # config.ini
 config.ini
+
+# data files
+data/
