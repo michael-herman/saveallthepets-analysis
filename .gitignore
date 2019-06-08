@@ -113,3 +113,6 @@ credentials.json
 
 # data files
 data/
+
+# saved models
+tests/*.pt
