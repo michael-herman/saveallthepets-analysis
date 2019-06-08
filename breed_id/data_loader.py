@@ -14,14 +14,14 @@ from torch.utils.data import Dataset, DataLoader
 from breed_id.breed_id_utils import GENERIC_DATA_TRANSFORMS
 
 
-class DogBreedDataLoader(object):
-    def __init__(self, labels_path, img_dir, split_size=0.20, rand_state=42,
-                 transform=None):
+class DataLoaderGenerator(object):
+    def __init__(self, labels_path, img_dir, split_size=0.20, rand_state=42):
         self._labels_path = labels_path
         self._img_dir = img_dir
         self._split_size = split_size
         self._rand_state = rand_state
-        self._transform = transform
+        self._train_transform = None
+        self._valid_transform = None
 
         # Create labels df, map breed to target, and add target column to df
         self._df = pd.read_csv(labels_path)
@@ -51,14 +51,19 @@ class DogBreedDataLoader(object):
         return next(sss.split(X=y, y=y))
 
     def get_data_loaders(self, batch_size=32, shuffle=False, num_workers=0,
-                         pin_memory=False, transform=None):
-        if transform:
-            self._transform = transform
+                         pin_memory=False, train_transform=None,
+                         valid_transform=None) -> dict:
+        if train_transform:
+            self._train_transform = train_transform
+        if valid_transform:
+            self._valid_transform = valid_transform
 
-        train_dataset = DogBreedDataset(self._train_df, self._img_dir, self._transform)
+        train_dataset = DogBreedDataset(self._train_df, self._img_dir,
+                                        self._train_transform)
         train_loader = DataLoader(train_dataset, batch_size, shuffle,
                                   num_workers=num_workers, pin_memory=pin_memory)
-        valid_dataset = DogBreedDataset(self._validation_df, self._img_dir, self._transform)
+        valid_dataset = DogBreedDataset(self._validation_df, self._img_dir,
+                                        self._valid_transform)
         valid_loader = DataLoader(valid_dataset, batch_size, shuffle,
                                   num_workers=num_workers, pin_memory=pin_memory)
         return {'train': train_loader, 'validation': valid_loader}

@@ -1,17 +1,22 @@
-import torch
+import os
 import time
+import torch
 import numpy as np
+
+# Package modules
+from breed_id.breed_id_utils import SAVED_MODELS_DIR
 
 
 class Trainer(object):
     def __init__(self, train_loader, validation_loader,
-                 criterion=None, optimizer=None, scheduler=None, lr=0.001):
+                 criterion=None, optimizer=None, scheduler=None,
+                 save_dir=SAVED_MODELS_DIR):
         self._train_loader = train_loader
         self._validation_loader = validation_loader
+        self._save_dir = save_dir
         self._criterion = criterion
         self._optimizer = optimizer
         self._scheduler = scheduler
-        self._lr = lr
         self._device = None
 
     def _fit(self, model, data_loader, train=False):
@@ -110,7 +115,6 @@ class Trainer(object):
                     'epoch': epoch,
                     'epochs': epochs,
                     'run_time': time.time() - start_train_timer,
-                    'sched_state_dict': self._scheduler.state_dict(),
                     'optimizer_state_dict': self._optimizer.state_dict(),
                     'state_dict': model.state_dict(),
                     'train_acc': acc_per_epoch_train,
@@ -119,9 +123,16 @@ class Trainer(object):
                     'valid_loss': loss_per_epoch_valid
                 }
 
+                # Only save scheduler state if exists
+                if self._scheduler:
+                    checkpoint['sched_state_dict'] = self._scheduler.state_dict()
+                else:
+                    checkpoint['sched_state_dict'] = None
+
                 model_name = f'{arch}_model.pt'
                 print(f'\tModel saved as: {model_name}')
-                torch.save(checkpoint, model_name)
+                save_path = os.path.join(self._save_dir, model_name)
+                torch.save(checkpoint, save_path)
                 valid_loss_min = valid_loss
 
         training_time = time.time() - start_train_timer

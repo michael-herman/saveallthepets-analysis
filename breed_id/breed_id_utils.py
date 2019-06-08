@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -8,6 +9,9 @@ from torchvision import transforms
 #####################################################################
 # HELPER VARIABLES
 #####################################################################
+BREED_ID_DIR = os.path.abspath(os.path.dirname(__file__))
+LABELS_CSV_PATH = os.path.join(BREED_ID_DIR, 'labels.csv')
+SAVED_MODELS_DIR = os.path.join(BREED_ID_DIR, 'saved_models')
 TRANSFORM_MEAN = [0.485, 0.456, 0.406]
 TRANSFORM_STD = [0.229, 0.224, 0.225]
 TRANSFORM_NORM = transforms.Normalize(
@@ -16,7 +20,7 @@ TRANSFORM_NORM = transforms.Normalize(
 )
 TRANSFORM_IMG_SIZE = 224
 GENERIC_DATA_TRANSFORMS = transforms.Compose([
-        transforms.Resize((TRANSFORM_IMG_SIZE, TRANSFORM_IMG_SIZE)),
+        transforms.CenterCrop(size=TRANSFORM_IMG_SIZE),
         transforms.ToTensor(),
         TRANSFORM_NORM
     ])

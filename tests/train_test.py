@@ -1,7 +1,6 @@
 import unittest
 import os
 import json
-import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision import transforms, models
@@ -45,7 +44,7 @@ class TrainerTestCase(unittest.TestCase):
         valid_data = ImageFolder(os.path.join(FLOWER_DATA_DIR, 'valid'),
                                  transform=valid_transforms)
 
-        # Configure loaders
+        # Configure dataloaders
         self._batch_size = 24
         self._train_loader = DataLoader(train_data, batch_size=self._batch_size,
                                         shuffle=True, num_workers=4,

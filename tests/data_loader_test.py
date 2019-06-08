@@ -1,6 +1,6 @@
 import unittest
 from math import ceil
-from breed_id.data_loader import DogBreedDataLoader
+from breed_id.data_loader import DataLoaderGenerator
 
 # NOTE: must map to local directory of images
 IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/train'
@@ -8,9 +8,9 @@ IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/train'
 # https://www.kaggle.com/c/dog-breed-identification/data
 
 
-class MyTestCase(unittest.TestCase):
+class DataLoaderTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self._loader = DogBreedDataLoader(labels_path='labels.csv', img_dir=IMG_DIR)
+        self._loader = DataLoaderGenerator(labels_path='labels.csv', img_dir=IMG_DIR)
 
     def test_generate_splits(self):
         # Case 1: default 80/20 ratio
