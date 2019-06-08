@@ -80,7 +80,7 @@ class DogBreedDataLoader(object):
             ax.imshow(images_n[idx].transpose(1, 2, 0))
             target = targets[idx].item()
             name = self._breeds[target]
-            ax.set_title(f'{target} ({name})')
+            ax.set_title(f'{name} ({target})')
             fig.subplots_adjust(hspace=0.5)
         plt.show()
 

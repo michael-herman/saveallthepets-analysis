@@ -30,9 +30,24 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected_valid, len(valid_idx),
                          msg=f'Expected: {expected_valid} valid count; result: {len(valid_idx)}')
 
-    # TODO: Add unit test for method.
     def test_get_data_loaders(self):
-        pass
+        loaders = self._loader.get_data_loaders()
+        # Verify return dict with two keys: train & validation
+        self.assertEqual(2, len(loaders),
+                         msg=f'Expected 2; result: {len(loaders)}')
+        for key in ['train', 'validation']:
+            self.assertTrue(key in loaders,
+                            msg=f'{key} not in {loaders.keys()}')
+
+        # Assess size of each loader: more than or equal to data subset size
+        expected = len(self._loader._train_df)
+        max_loader_count = len(loaders['train']) * 32
+        self.assertLessEqual(expected, max_loader_count,
+                             msg=f'Expected: {expected}; result: {max_loader_count}')
+        expected = len(self._loader._validation_df)
+        max_loader_count = len(loaders['validation']) * 32
+        self.assertLessEqual(expected, max_loader_count,
+                            msg=f'Expected: {expected}; result: {max_loader_count}')
 
     def test_show_sample_images(self):
         """No unit cases, just visual check."""
