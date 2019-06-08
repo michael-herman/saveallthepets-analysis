@@ -12,6 +12,8 @@ from breed_id.breed_id_utils import TRANSFORM_NORM
 
 # NOTE: Update path per your local directory
 FLOWER_DATA_DIR = '/media/wdblack-1/saveallthepets/flower_data/flower_data'
+# Data can be found from Kaggle:
+# https://www.kaggle.com/nunenuh/pytorch-challange-flower-dataset
 
 
 class TrainerTestCase(unittest.TestCase):

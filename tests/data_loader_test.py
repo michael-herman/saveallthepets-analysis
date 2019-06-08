@@ -4,6 +4,8 @@ from breed_id.data_loader import DogBreedDataLoader
 
 # NOTE: must map to local directory of images
 IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/train'
+# Kaggle dataset can be found:
+# https://www.kaggle.com/c/dog-breed-identification/data
 
 
 class MyTestCase(unittest.TestCase):
