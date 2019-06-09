@@ -1,9 +1,16 @@
 import unittest
+import os
+import torch
+import pandas as pd
+from torch import nn
+from torchvision import models
 from math import ceil
 from breed_id.data_loader import DataLoaderGenerator
+from breed_id.breed_id_utils import predict, SAVED_MODELS_DIR
 
 # NOTE: must map to local directory of images
 IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/train'
+TEST_IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/test'
 # Kaggle dataset can be found:
 # https://www.kaggle.com/c/dog-breed-identification/data
 
@@ -54,6 +61,28 @@ class DataLoaderTestCase(unittest.TestCase):
     def test_show_sample_images(self):
         """No unit cases, just visual check."""
         self._loader.show_sample_images()
+
+    def test_predict(self):
+        # load model checkpoint and reconfigure model
+        model = models.resnet50(pretrained=False)
+        model.fc = nn.Sequential(
+            nn.Linear(2048, 120)
+        )
+        checkpoint = torch.load(os.path.join(SAVED_MODELS_DIR, 'R50_1node_model.pt'))
+        model.load_state_dict(checkpoint['state_dict'])
+
+        # Load sample of validation images
+        valid_df = self._loader._validation_df
+        img_ids = valid_df.id[:3].tolist()
+        breeds = valid_df.breed[:3].tolist()
+        targets = valid_df.target[:3].tolist()
+        img_files = [os.path.join(IMG_DIR, f'{img}.jpg') for img in img_ids]
+        probs = predict(img_files, model)
+
+        # verify model results
+        for idx, prob in enumerate(probs):
+            print(img_ids[idx], breeds[idx], prob[targets[idx]] * 100)
+        self.assertTrue(len(probs) > 0)
 
 
 if __name__ == '__main__':

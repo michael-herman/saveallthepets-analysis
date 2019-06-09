@@ -1,8 +1,10 @@
 import os
 import numpy as np
 from matplotlib import pyplot as plt
+from PIL import Image
 
 # Torch imports
+import torch
 from torchvision import transforms
 
 
@@ -37,4 +39,14 @@ def tensor_img_show(img, transformed=False):
     img = np.clip(img, 0, 1)
     plt.imshow(img)
 
+
+def predict(img_files: list, model):
+    # Process images
+    images = [Image.open(img_file) for img_file in img_files]
+    batch = torch.stack([GENERIC_DATA_TRANSFORMS(img) for img in images])
+
+    # Use CPU for predicting
+    model.to('cpu')
+    probs = torch.softmax(model.forward(batch), dim=1).data.numpy()
+    return probs
 
