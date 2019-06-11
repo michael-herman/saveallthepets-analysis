@@ -116,4 +116,5 @@ data/
 
 # saved models
 tests/*.pt
-breed_id/saved_models
+breed_id/saved_models/
+tests/saved_models/

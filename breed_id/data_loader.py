@@ -68,12 +68,16 @@ class DataLoaderGenerator(object):
                                   num_workers=num_workers, pin_memory=pin_memory)
         return {'train': train_loader, 'validation': valid_loader}
 
-    def show_sample_images(self) -> None:
+    def show_sample_images(self, transform=None) -> None:
         """
         Visualize a sample of twelve dataset images including breed label.
         """
+        # Use Generic transform if None provided
+        if transform is None and not self._train_transform:
+            transform = GENERIC_DATA_TRANSFORMS
+
         dataset = DogBreedDataset(data_df=self._df, img_dir=self._img_dir,
-                                  transform=self._transform)
+                                  transform=transform)
         loader = DataLoader(dataset=dataset, batch_size=12, shuffle=False)
         images, targets = next(iter(loader))
         images_n = images.numpy()

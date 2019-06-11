@@ -58,7 +58,6 @@ class TrainerTestCase(unittest.TestCase):
         self._classifier = nn.Sequential(OrderedDict([
             ('fc1', nn.Linear(2208, 102))
         ]))
-        self._arch = 'trainer_unit_test_densenet161'
 
         # Freeze parameters and reshape pretrained model
         for param in self._model.parameters():
@@ -74,12 +73,24 @@ class TrainerTestCase(unittest.TestCase):
                                                     step_size=50, gamma=0.1)
 
     def test_train_model(self):
+        arch = 'trainer_unit_test'
         trainer = Trainer(self._train_loader, self._valid_loader,
                           self._criterion, self._optimizer,
-                          self._scheduler, self._lr)
+                          self._scheduler, save_dir='saved_models')
 
-        checkpoint = trainer.train_model(self._arch, self._model,
+        checkpoint = trainer.train_model(arch, self._model,
                                          epochs=20)
+        self.assertTrue(checkpoint['train_acc'][-1] > 90)
+        self.assertTrue(checkpoint['valid_acc'][-1] > 90)
+
+    def test_early_stopping(self):
+        arch = 'early_stop_unit_test'
+        trainer = Trainer(self._train_loader, self._valid_loader,
+                          self._criterion, self._optimizer,
+                          self._scheduler, save_dir='saved_models')
+
+        checkpoint = trainer.train_model(arch, self._model,
+                                         epochs=100, patience=1)
         self.assertTrue(checkpoint['train_acc'][-1] > 90)
         self.assertTrue(checkpoint['valid_acc'][-1] > 90)
 

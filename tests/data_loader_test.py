@@ -1,7 +1,6 @@
 import unittest
 import os
 import torch
-import pandas as pd
 from torch import nn
 from torchvision import models
 from math import ceil
@@ -10,7 +9,6 @@ from breed_id.breed_id_utils import predict, SAVED_MODELS_DIR
 
 # NOTE: must map to local directory of images
 IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/train'
-TEST_IMG_DIR = '/media/wdblack-1/saveallthepets/dog-breed-dataset/kaggle/test'
 # Kaggle dataset can be found:
 # https://www.kaggle.com/c/dog-breed-identification/data
 
