@@ -89,6 +89,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+reg_env/
 
 # Spyder project settings
 .spyderproject
@@ -112,3 +113,8 @@ credentials.json
 
 # data files
 data/
+
+# saved models
+tests/*.pt
+breed_id/saved_models/
+tests/saved_models/
