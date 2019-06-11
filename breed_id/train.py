@@ -227,10 +227,10 @@ class Trainer(object):
         return checkpoint
 
     @staticmethod
-    def display_classification_report(true_labels, pred_labels, classes):
+    def display_classification_report(true_labels, pred_labels, breeds):
         report = classification_report(y_true=true_labels,
                                        y_pred=pred_labels,
-                                       labels=classes)
+                                       target_names=breeds)
         print(report)
 
     @staticmethod
