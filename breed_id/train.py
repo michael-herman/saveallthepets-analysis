@@ -2,10 +2,11 @@ import os
 import time
 import torch
 import numpy as np
-import seaborn as sns
+import pandas as pd
 import matplotlib.pyplot as plt
 from tqdm import tnrange
 from sklearn.metrics import confusion_matrix, matthews_corrcoef
+from sklearn.metrics import classification_report
 
 # Package modules
 from breed_id.breed_id_utils import SAVED_MODELS_DIR
@@ -226,34 +227,79 @@ class Trainer(object):
         return checkpoint
 
     @staticmethod
-    def plot_confusion_matrix(y_true, y_pred,
-                              title='DOG BREED CONFUSION MATRIX'):
-        sns.heatmap(confusion_matrix(y_true=y_true, y_pred=y_pred),
-                    annot=True, lw=2, cbar=False)
-        plt.ylabel('Actual')
-        plt.xlabel('Predicted')
-        plt.title(title)
-        plt.show()
+    def display_classification_report(true_labels, pred_labels, classes):
+        report = classification_report(y_true=true_labels,
+                                       y_pred=pred_labels,
+                                       labels=classes)
+        print(report)
+
+    @staticmethod
+    def plot_confusion_matrix(true_labels, pred_labels, classes,
+                              save_as='confusion_matrix.csv'):
+        total_classes = len(classes)
+        level_labels = [total_classes * [0], list(range(total_classes))]
+
+        cm = confusion_matrix(y_true=true_labels, y_pred=pred_labels,
+                              labels=classes)
+        cm_df = pd.DataFrame(data=cm,
+                             columns=pd.MultiIndex(levels=[['Predicted:'],
+                                                           classes],
+                                                   labels=level_labels),
+                             index=pd.MultiIndex(levels=[['Actual:'], classes],
+                                                 labels=level_labels))
+
+        if save_as:
+            cm_df.to_csv(os.path.join(SAVED_MODELS_DIR, save_as))
+        print(cm_df)
 
     # Graph training loss vs validation loss and accuracy over epochs
     @staticmethod
     def plot_loss(arch: str, train_loss: list, valid_loss: list,
-                  train_metric: list = None, valid_metric: list = None,
+                  train_metric: list, valid_metric: list,
                   metric_title='Accuracy', train_metric_label='Train Accuracy',
                   valid_metric_label='Validation Accuracy'):
-        x = [idx for idx in range(1, len(train_loss) + 1)]
-        fig, ax = plt.subplots()
 
-        ax.plot(x, train_loss, label='Training Loss')
-        ax.plot(x, valid_loss, label="Validation Loss")
-        ax.legend(loc=2)
-        ax.set_xlabel = 'Epochs'
-        ax.set_ylabel = 'Loss'
+        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+        f.suptitle(f'{arch} Model Performance', fontsize=12)
+        f.subplots_adjust(top=0.85, wspace=0.3)
 
-        if train_metric and valid_metric:
-            ax2 = ax.twinx()
-            ax2.plot(x, valid_metric, label=valid_metric_label, color='red')
-            ax2.plot(x, train_metric, label=train_metric_label, color='green')
-            ax.set_ylabel = metric_title
-        plt.set_title = f'{arch} Model Loss Per Epoch'
+        epochs = list(range(1, len(train_loss) + 1))
+        ax1.plot(epochs, train_metric, label=train_metric_label)
+        ax1.plot(epochs, valid_metric, label=valid_metric_label)
+        if len(train_loss) > 20:
+            ax1.set_xticks(range(1, len(train_loss) + 1, 10))
+        else:
+            ax1.set_xticks(epochs)
+        ax1.set_ylabel(f'{metric_title} Value')
+        ax1.set_xlabel('Epoch')
+        ax1.set_title(metric_title)
+        ax1.legend(loc="best")
+
+        ax2.plot(epochs, train_loss, label='Train Loss')
+        ax2.plot(epochs, valid_loss, label='Validation Loss')
+        if len(train_loss) > 20:
+            ax2.set_xticks(range(1, len(train_loss) + 1, 10))
+        else:
+            ax2.set_xticks(epochs)
+        ax2.set_ylabel('Loss Value')
+        ax2.set_xlabel('Epoch')
+        ax2.set_title('Loss')
+        ax2.legend(loc="best")
         plt.show()
+
+        # x = list(range(1, len(train_loss) + 1))
+        # fig, ax = plt.subplots()
+        #
+        # ax.plot(x, train_loss, label='Training Loss')
+        # ax.plot(x, valid_loss, label="Validation Loss")
+        # ax.legend(loc=2)
+        # ax.set_xlabel = 'Epochs'
+        # ax.set_ylabel = 'Loss'
+        #
+        # if train_metric and valid_metric:
+        #     ax2 = ax.twinx()
+        #     ax2.plot(x, valid_metric, label=valid_metric_label, color='red')
+        #     ax2.plot(x, train_metric, label=train_metric_label, color='green')
+        #     ax.set_ylabel = metric_title
+        # plt.set_title = f'{arch} Model Loss Per Epoch'
+        # plt.show()

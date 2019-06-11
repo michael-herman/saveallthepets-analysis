@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import numpy as np
+import scipy as sp
 from PIL import Image
 from matplotlib import pyplot as plt
 
@@ -68,9 +68,10 @@ class DataLoaderGenerator(object):
                                   num_workers=num_workers, pin_memory=pin_memory)
         return {'train': train_loader, 'validation': valid_loader}
 
-    def show_sample_images(self, transform=None) -> None:
+    def show_sample_images(self, im_scale_x=64, im_scale_y=64,
+                           transform=None) -> None:
         """
-        Visualize a sample of twelve dataset images including breed label.
+        Visualize a sample of 36 dataset images including breed label.
         """
         # Use Generic transform if None provided
         if transform is None and not self._train_transform:
@@ -78,19 +79,27 @@ class DataLoaderGenerator(object):
 
         dataset = DogBreedDataset(data_df=self._df, img_dir=self._img_dir,
                                   transform=transform)
-        loader = DataLoader(dataset=dataset, batch_size=12, shuffle=False)
+        loader = DataLoader(dataset=dataset, batch_size=36, shuffle=False)
         images, targets = next(iter(loader))
         images_n = images.numpy()
 
         # Plot the images in the batch, along with the corresponding labels
-        fig = plt.figure(figsize=(25, 4))
-        for idx in np.arange(12):
-            ax = fig.add_subplot(2, 6, idx + 1, xticks=[], yticks=[])
-            ax.imshow(images_n[idx].transpose(1, 2, 0))
-            target = targets[idx].item()
-            name = self._breeds[target]
-            ax.set_title(f'{name} ({target})')
-            fig.subplots_adjust(hspace=0.5)
+        grid_width = 6
+        grid_height = 6
+        f, ax = plt.subplots(grid_width, grid_height)
+        f.set_size_inches(12, 12)
+
+        img_idx = 0
+        for i in range(0, grid_width):
+            for j in range(0, grid_height):
+                target = targets[img_idx].item()
+                name = self._breeds[target]
+                ax[i][j].axis('off')
+                ax[i][j].set_title(f'{name} ({target})')
+                ax[i][j].imshow(images_n[img_idx].transpose(1, 2, 0))
+                img_idx += 1
+
+        plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0.25)
         plt.show()
 
 
