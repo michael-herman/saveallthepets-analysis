@@ -28,6 +28,14 @@ def analyze(shelter):
     '''
     pass
 
+def identify_candidates(animals):
+    '''
+    Flag dogs that are candidates for the "canines for warriors" program, which fit this description:
+    - lab, shepherd, or hound, 11 months to 3 years old, that weigh at least 30 or 40 pounds
+    '''
+    return {}
+
+
 # The fun part!
 def recommend(animals, shelters):
     '''
