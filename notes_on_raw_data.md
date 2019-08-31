@@ -13,15 +13,8 @@ The goal of the ETL will be to create a standardized schema limited to useful in
 
 # Overview of Tables
 
-There are 9 different tables included in the data extract:
-* **AccountExtract**: This appears to be a list of contacts who have meaningful interactions with the shelter. The `ORGANIZATIONAL_TYPE__C` field specifies the type of contact and includes "Household Individual" (the most common), "Government", "Merchant/Local Business", and "Partner/Animal Shelter".
-    - The unique identifier for each account is `ACCOUNT_18_DIGIT__C`, which can be used to join with other tables. The `ID` column is identical to `ACCOUNT_18_DIGIT__C`.
-    - This table contains the account information for adopting households. The zip code or adopter location may be useful, but generally this table isn't terribly helpful.
-    - Details on individuals associated with an account are in the `ContactExtract` table.
-* **ContactExtract**: This appears to be individual-level contact information for each account. If multiple individuals are associated with an account, they will have multiple rows in this table.
-    - The unique identifier for each contact is `CONTACT_18_DIGIT__C`. The `ID` column is identical to `CONTACT_18_DIGIT__C`.
-    - This table can be joined to _AccountExtract_ via the `ACCOUNTID` field.
-    - Most of the fields in this table are blank or not useful. There are some fields that may be useable. Its main purpose appears to be for marketing campaigns.
+There are 9 different tables included in the data extract. Below are
+details on the meaningful tables:
 * **AnimalExtract**: This is the primary table of interest, containing details of each animal, including the adoption indicator.
     - The unique identifier for each animal is `ID`.
     - This table can be joined to the _AccountExtract_ table via `ACCOUNT__C`.
