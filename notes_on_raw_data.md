@@ -1,11 +1,11 @@
-Notes on Hinsdale Humane Society Data Extract
+Notes on Partner Shelter Data Extract
 ==============
 
 **Author:** *Michael Herman (m.herman.1000@gmail.com)*
 
 # Summary of Data
 
-The initial goal is to create a model that predicts the likely hood of adoption for a specific animal at a given shelter. This data comes from the Hinsdale Humane Society, so it is we can only model the adoption likelihood for this specific location. However, the data schema we establish may be useful for any shelter data. There are a number of tables here that could be used for feature creation. But the main table is _AnimalExtract_, which is unique by specific animal. The _AssesmentExtract_ may be useful for NLP analysis.
+The initial goal is to create a model that predicts the likely hood of adoption for a specific animal at a given shelter. This data comes from the partner shelter, so it is we can only model the adoption likelihood for this specific location. However, the data schema we establish may be useful for any shelter data. There are a number of tables here that could be used for feature creation. But the main table is _AnimalExtract_, which is unique by specific animal. The _AssesmentExtract_ may be useful for NLP analysis.
 
 The goal of the ETL will be to create a standardized schema limited to useful information in a useful format. At a high level, the ETL will do the following:
 - Import limited fields and tables into raw data tables and schemas.
