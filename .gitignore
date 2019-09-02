@@ -1,3 +1,8 @@
+# MPH Files to ignore.
+*.xls
+*.xlsx
+*/xArchive/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

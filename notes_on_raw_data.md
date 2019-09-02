@@ -40,8 +40,6 @@ details on the meaningful tables:
         * `HOUSETRAINING_NOTES__C`: Text details on housetraining.
         * `ID`: Unique identifier.
         * `IMAGE__C`: Mostly blank, but non-blanks are html links to images. I couldn't get them to pull up, so they may be behind a wall.
-        * `LATEST_VET_INSTRUCTIONS__C`: Text field with vet instruction. Unlikely to be useful, but keeping it anyway.
-        * `LATEST_VET_VISIT_DATE__C`: Last date of vet visit.
         * `LIVED_WITH_PETS__C`: Indicator of whether the pet has lived with pets. Mostly blank, but non-blanks are "Yes", "No", and "Unknown".
         * `LIVED_WTIH_KIDS__C`: Indicator of whether the pet has lived with kids. Mostly blank, but non-blanks are "Yes", "No", and "Unknown".
         * `MICROCHIP_DATE_ISSUED__C`: Date microchipped.
