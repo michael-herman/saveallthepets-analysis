@@ -1,0 +1,126 @@
+---
+# This file follows the following format.
+# <sheet_name_in_excel_file>:
+#     output_object_name: <what_your_output_object_will_be_named>
+#     import_fields:
+#         <original_field_name>:
+#             new_field_name: <string_of_new_field_name>
+#             dtype: <pandas_acceptable_dtype_string>
+
+AnimalExtract:
+    output_object_name: animal_data
+    import_fields:
+        ACCOUNT__C:
+            new_field_name: account_id
+            dtype: object
+        ADOPTED__C:
+            new_field_name: adopted_ind
+            dtype: bool
+        ADOPTION_FEE_PAID__C:
+            new_field_name: adoption_fee_paid_ind
+            dtype: bool
+        ADOPTION_PHASE__C:
+            new_field_name: adoption_phase
+            dtype: object
+        AGE_INDICATOR__C:
+            new_field_name: age_units
+            dtype: object
+        AGE__C:
+            new_field_name: age_lbl
+            dtype: object
+        ATTITUDE_TOWARDS_PETS__C:
+            new_field_name: attitude_pets
+            dtype: object
+        ATTITUDES_TOWARDS_KIDS__C:
+            new_field_name: attitude_kids
+            dtype: object
+        BIRTHDATE__C:
+            new_field_name: birthdate
+            dtype: datetime64
+        COLOR_PATTERN__C:
+            new_field_name: color_pattern
+            dtype: object
+        CREATEDDATE:
+            new_field_name: animal_record_create_date
+            dtype: datetime64
+        DECLAWED_ALL_4__C:
+            new_field_name: declawed_all_ind
+            dtype: bool
+        DECLAWED__C:
+            new_field_name: declawed_ind
+            dtype: bool
+        DOCKED_TAIL__C:
+            new_field_name: docked_tail_ind
+            dtype: bool
+        EARS_CROPPED_TIPPED__C:
+            new_field_name: ears_cropped_ind
+            dtype: bool
+        GENDER__C:
+            new_field_name: gender
+            dtype: object
+        GENERAL_CONDITION__C:
+            new_field_name: general_condition
+            dtype: object
+        HOUSETRAINED__C:
+            new_field_name: housetrained_lbl
+            dtype: object
+        HOUSETRAINING_NOTES__C:
+            new_field_name: housetrained_notes
+            dtype: object
+        ID:
+            new_field_name: animal_id
+            dtype: object
+        IMAGE__C:
+            new_field_name: image_url
+            dtype: object
+        LIVED_WITH_PETS__C:
+            new_field_name: lived_w_pets_lbl
+            dtype: object
+        LIVED_WTIH_KIDS__C:
+            new_field_name: lived_w_kids_lbl
+            dtype: object
+        MICROCHIP_DATE_ISSUED__C:
+            new_field_name: chip_issue_date
+            dtype: datetime64
+        NAME:
+            new_field_name: animal_name
+            dtype: object
+        ON_HOLD_UNTIL__C:
+            new_field_name: on_hold_until_date
+            dtype: datetime64
+        OVERALL_HEALTH_NOTES__C:
+            new_field_name: overall_health_notes
+            dtype: object
+        PRIMARY_BREED__C:
+            new_field_name: primary_breed
+            dtype: object
+        PRIMARY_COLOR__C:
+            new_field_name: primary_color
+            dtype: object
+        RABIES_EXPIRATION__C:
+            new_field_name: rabies_exp_date
+            dtype: datetime64
+        RESTRICTIONS_NOTES__C:
+            new_field_name: adoption_restriction_notes
+            dtype: object
+        RESTRICTIONS__C:
+            new_field_name: adoption_restriction_lbl
+            dtype: object
+        SECONDARY_BREED__C:
+            new_field_name: secondary_breed
+            dtype: object
+        SECONDARY_COLOR__C:
+            new_field_name: secondary_color
+            dtype: object
+        SIZE_AT_MATURITY__C:
+            new_field_name: size_at_maturity_lbl
+            dtype: object
+        SPAYED_NEUTERED__C:
+            new_field_name: spay_neuter_ind
+            dtype: bool
+        SPECIES__C:
+            new_field_name: species
+            dtype: object
+        WEIGHT__C:
+            new_field_name: weight
+            dtype: float64
