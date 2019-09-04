@@ -27,7 +27,7 @@ AnimalExtract:
             dtype: object
         AGE__C:
             new_field_name: age_lbl
-            dtype: object
+            dtype: str
         ATTITUDE_TOWARDS_PETS__C:
             new_field_name: attitude_pets
             dtype: object
