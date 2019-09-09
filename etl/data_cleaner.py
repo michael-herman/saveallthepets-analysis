@@ -1,7 +1,13 @@
+#!/usr/bin/env python3
+
+""" Data Cleaner Module
+This module contains methods for cleaning data or calls upon scripts containing such methods.
+"""
+
+
 import pandas as pd
 import numpy as np
-
-animals = pd.read_pickle('animal_data.pkl')
+from re import IGNORECASE
 
 # Creating age_years column.
 # - First, use the time difference between birthdate and animal_record_create_date.
@@ -9,7 +15,7 @@ animals = pd.read_pickle('animal_data.pkl')
 # - For animals that don't have time difference values:
 #    - For animals with known unit types, use the unit and
 
-def creat_age_years_col(df):
+def create_age_years_col(df):
     """ Add a `age_years` column (float) specifying the age in years.
     Age information input is inconsistent, sometimes using months, sometimes years, et.
     This parses the `age_units`, `age_lbl`, `birthdate` and `animal_record_create_date` fields
