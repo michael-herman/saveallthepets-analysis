@@ -2,6 +2,7 @@ import pandas as pd
 
 
 # Find the distance between two shelters in order to demote long moves and promote shorter moves
+# NOT HIGH PRIORITY
 def distance_between_shelters(shelter_a, shelter_b):
     # Use shelter_a.location and shelter_b.location
     return 100
@@ -28,7 +29,7 @@ def analyze(shelter):
     '''
     pass
 
-def identify_candidates(animals):
+def identify_candidates(animals, shelters):
     '''
     Flag dogs that are candidates for the "canines for warriors" program, which fit this description:
     - lab, shepherd, or hound, 11 months to 3 years old, that weigh at least 30 or 40 pounds
