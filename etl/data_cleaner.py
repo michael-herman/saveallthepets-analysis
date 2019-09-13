@@ -180,11 +180,9 @@ def clean_species_col(df):
     Returns: The same dataframe with the column parsed and corrected.
 
     """
-    df.loc['species'] = df.loc[:,'species'].str.replace(pat=r'[^(dog)|(cat)|(other)]', repl='', case=False)
+    df['species'] = df.loc[:,'species'].str.replace(pat=r'[^(dog)|(cat)|(other)]', repl='', case=False)
     df['species'] = df.loc[:,'species'].replace(to_replace='', value=np.nan)
-
-
-
+    
     return df
 
 def clean_gender_col(df):
@@ -219,7 +217,7 @@ def clean_weight_col(df):
 
     # Test reasonability for cats. Cats with weight values over 50.0 will be forced to np.nan.
     bool_cat_rows = df['species'].str.match(r'cat', case=False, flags=IGNORECASE)
-    bool_bad_cat_weights = bool_cat_rows & df['weight'] > 50.0]
+    bool_bad_cat_weights = bool_cat_rows & df['weight'] > 50.0
     df.loc[bool_bad_cat_weights, 'weight'] = np.nan
 
     # Test reasonability for dogs. Dogs with weight values over 200.0 will be fonced to np.nan.
