@@ -163,3 +163,68 @@ def create_age_years_col(df):
     df.update(no_unit_age_float)
 
     return df
+
+
+def clean_species_col(df):
+    """ Replace values that aren't "Cat", "Dog", or "Other" with np.nan. Also correct case.
+
+    Given a dataframe of animal data, this will parse the `species` column and replace
+    make sure that each value is either "Cat", "Dog", or "Other". It will also correct for
+    non-capitalized cases (e.g. "cat" -> "Cat"). It will also trim values that have
+    whitespace but are otherwise valid (e.g. " dog" -> "Dog"). Last, it will force anything
+    that does not parse as valid to np.nan.
+
+    Args:
+        - df: A dataframe of animal data. Must contain a `species` column.
+
+    Returns: The same dataframe with the column parsed and corrected.
+
+    """
+    df.loc['species'] = df.loc[:,'species'].str.replace(pat=r'[^(dog)|(cat)|(other)]', repl='', case=False)
+    df['species'] = df.loc[:,'species'].replace(to_replace='', value=np.nan)
+
+
+
+    return df
+
+def clean_gender_col(df):
+    """ Replaces values that are not "Male" or "Female" with np.nan. Also corrects for
+    capitalization.
+
+    Args:
+        - df: A dataframe of animal data. Must contain the column `gender`.
+
+    Returns: The same dataframe with the column parsed and corrected.
+
+    """
+    # Replace any characters that is not "Male" or "Female" with blanks.
+    # This will trim strings that contain Male or Female. It will also force other strings to ''.
+    df['gender'] = df.loc[:,'gender'].str.replace(r'[^(Male)|(Female)]', '')
+    # Now replace '' with np.nan.
+    df['gender'] = df.loc[:, 'gender'].replace(to_replace='', value=np.nan)
+    return df
+
+def clean_weight_col(df):
+    """ Checks for non-sensical values in the weight column. Replaces these values with np.nan.
+
+    Non-sensical values are any zero or negative weight values. For cats, any value greater than
+    50.0 will be forced to np.nan. (Note: The largest house cat ever was named Meow and he weighed
+    a chonky 46.8 lbs.) For dogs, any value greater than 350.0 will be forced to np.nan. (Note: The largest dog ever was named Zorba, a 343 lbs absolute unit of a Mastiff.)
+
+    """
+    weight = df.loc[:,'weight']
+
+    # Replace negatives and zeros with np.nan.
+    df.loc[df['weight'] <= 0.0, 'weight'] = np.nan
+
+    # Test reasonability for cats. Cats with weight values over 50.0 will be forced to np.nan.
+    bool_cat_rows = df['species'].str.match(r'cat', case=False, flags=IGNORECASE)
+    bool_bad_cat_weights = bool_cat_rows & df['weight'] > 50.0]
+    df.loc[bool_bad_cat_weights, 'weight'] = np.nan
+
+    # Test reasonability for dogs. Dogs with weight values over 200.0 will be fonced to np.nan.
+    bool_dog_rows = df['species'].str.match(r'dog', case=False, flags=IGNORECASE)
+    bool_bad_dog_weights = bool_dog_rows & df['weight'] > 350.0
+    df.loc[bool_bad_dog_weights, 'weight'] = np.nan
+
+    return df
