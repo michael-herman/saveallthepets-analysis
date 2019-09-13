@@ -16,11 +16,29 @@ from re import IGNORECASE
 #    - For animals with known unit types, use the unit and
 
 def create_age_years_col(df):
-    """ Add a `age_years` column (float) specifying the age in years.
-    Age information input is inconsistent, sometimes using months, sometimes years, et.
-    This parses the `age_units`, `age_lbl`, `birthdate` and `animal_record_create_date` fields
-    to determine the animal's age.
+    """Create an age in years (float) column.
+
+    There are multiple columns that contain information about the age of the animal, often
+    in formats that are inconsistent or difficult. This uses multiple approaches to determine
+    the age in years.
+
+    If the animal has valid values in the `animal_record_create_date` and `birthdate` columns,
+    this is used to create the age. Otherwise, the `age_lbl` column is parsed for date-like
+    formats, uses this as a birthdate, and determines the age. After this, the `age_lbl` column
+    and `age_units` columns are parsed, cleaned, and an age in years determined.
+
+    Args:
+        param1: df. A dataframe containing animals data. Must have the following columns:
+            - `animal_record_create_date`
+            - `birthdate`
+            - `age_lbl`
+            - `age_units`
+
+    Returns:
+        Adds an `age_years` _np.float_ column and returns the resulting dataframe.
+
     """
+
     df.set_index('animal_id')
 
     # Create blank float col.
